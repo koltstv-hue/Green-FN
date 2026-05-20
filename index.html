@@ -396,7 +396,7 @@ select option{background:var(--card2);}
 
 </div><!-- /main -->
 <script>
-const API_KEY='9e64797b7b1402ae87bb366a5b2e0e24';
+const API_KEY='3cd192481836b6598c238ec83d81462c';
 let sport='baseball_mlb',sportKey='mlb',mode='novig',games=[],mlbPitchers={},selAmts={};
 const DB={get:k=>{try{return JSON.parse(localStorage.getItem(k)||'null');}catch{return null;}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}}};
 const getBets=()=>DB.get('gfn_bets')||[],saveBets=b=>DB.set('gfn_bets',b),getLosses=()=>DB.get('gfn_losses')||[],saveLosses=l=>DB.set('gfn_losses',l);
