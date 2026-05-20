@@ -15,6 +15,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes livePulse{0%,100%{box-shadow:0 0 0 0 rgba(248,81,73,0.4)}70%{box-shadow:0 0 0 6px rgba(248,81,73,0)}}
 .mode-pills{display:flex;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:3px;gap:2px;}
 .mode-pill{font-size:11px;font-weight:600;padding:5px 12px;border:none;background:transparent;color:var(--text2);cursor:pointer;border-radius:6px;}
 .mode-pill.active{background:var(--green);color:#000;font-weight:700;}
@@ -28,21 +29,32 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 .main-nav::-webkit-scrollbar{display:none;}
 .nav-btn{font-size:10px;font-weight:600;padding:10px 14px;border:none;background:transparent;color:var(--text2);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;text-transform:uppercase;}
 .nav-btn.active{color:var(--green);border-bottom-color:var(--green);}
+.nav-btn.live-btn{color:var(--red);}
+.nav-btn.live-btn.active{color:var(--red);border-bottom-color:var(--red);}
 .main{padding:14px;max-width:900px;margin:0 auto;padding-bottom:40px;}
 .section{display:none;}
 .section.active{display:block;animation:fadeUp 0.3s ease;}
+
+/* POTD */
 .potd-card{background:linear-gradient(135deg,#1a2a1a,#161b22);border:1px solid rgba(45,255,127,0.3);border-radius:16px;padding:20px;margin-bottom:14px;position:relative;overflow:hidden;}
 .potd-card::after{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;background:radial-gradient(circle,rgba(45,255,127,0.12),transparent 70%);pointer-events:none;}
 .potd-badge{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:8px;}
 .potd-game{font-size:12px;color:var(--text2);margin-bottom:4px;}
 .potd-team{font-family:var(--display);font-size:32px;letter-spacing:2px;line-height:1;margin-bottom:6px;}
 .potd-odds{font-size:22px;font-weight:800;margin-bottom:12px;}
-.potd-odds.fav{color:var(--red);}.potd-odds.dog{color:var(--green);}
+.potd-odds.fav{color:var(--red);}.potd-odds.dog{color:var(--green);}.potd-odds.neu{color:var(--text);}
 .potd-chips{display:flex;gap:6px;flex-wrap:wrap;}
+.potd-rank{position:absolute;top:16px;right:16px;font-family:var(--display);font-size:48px;color:rgba(45,255,127,0.06);line-height:1;}
+
+/* Pills */
 .pill{font-size:10px;font-weight:600;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--text2);background:var(--card2);}
 .pill.g{border-color:rgba(45,255,127,0.4);color:var(--green);background:rgba(45,255,127,0.08);}
 .pill.gold{border-color:rgba(240,180,41,0.4);color:var(--gold);background:rgba(240,180,41,0.08);}
 .pill.blue{border-color:rgba(88,166,255,0.4);color:var(--blue);background:rgba(88,166,255,0.08);}
+.pill.red{border-color:rgba(248,81,73,0.4);color:var(--red);background:rgba(248,81,73,0.08);}
+.pill.purple{border-color:rgba(188,140,255,0.4);color:var(--purple);background:rgba(188,140,255,0.08);}
+
+/* Pick cards */
 .pick-card{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;animation:fadeUp 0.4s ease;}
 .pick-card.high{border-left:3px solid var(--green);}
 .pick-card.mid{border-left:3px solid var(--gold);}
@@ -59,6 +71,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 .pick-odds-big{font-size:20px;font-weight:800;}
 .pick-odds-big.fav{color:var(--red);}.pick-odds-big.dog{color:var(--green);}.pick-odds-big.neu{color:var(--text);}
 .imp-pill{font-size:10px;font-weight:600;color:var(--text2);background:var(--card2);padding:3px 8px;border-radius:6px;}
+.type-badge{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:4px;}
+.type-badge.ml{background:rgba(45,255,127,0.1);color:var(--green);border:1px solid rgba(45,255,127,0.25);}
+.type-badge.rl{background:rgba(88,166,255,0.1);color:var(--blue);border:1px solid rgba(88,166,255,0.25);}
+.type-badge.over{background:rgba(255,140,66,0.1);color:var(--orange);border:1px solid rgba(255,140,66,0.25);}
+.type-badge.under{background:rgba(188,140,255,0.1);color:var(--purple);border:1px solid rgba(188,140,255,0.25);}
 .conf-section{padding:0 16px 10px;}
 .conf-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--text2);margin-bottom:4px;}
 .conf-track{height:4px;background:var(--card2);border-radius:2px;overflow:hidden;}
@@ -70,6 +87,18 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 .pick-expand:hover{background:var(--card2);color:var(--text);}
 .pick-detail{display:none;border-top:1px solid var(--border);}
 .pick-detail.open{display:block;animation:fadeUp 0.2s ease;}
+
+/* Picks tab subtabs */
+.picks-subtab-row{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none;}
+.picks-subtab-row::-webkit-scrollbar{display:none;}
+.subtab-btn{font-size:11px;font-weight:700;padding:7px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;white-space:nowrap;}
+.subtab-btn.active{background:var(--green);border-color:var(--green);color:#000;}
+.subtab-btn.active.rl{background:var(--blue);border-color:var(--blue);}
+.subtab-btn.active.ou{background:var(--orange);border-color:var(--orange);}
+.subpanel{display:none;}
+.subpanel.active{display:block;}
+
+/* Analysis */
 .analysis-section{padding:14px 16px;border-bottom:1px solid var(--border);}
 .analysis-section:last-of-type{border-bottom:none;}
 .analysis-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
@@ -106,6 +135,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 .log-btn{font-size:11px;font-weight:700;padding:6px 16px;border:1px solid var(--green);background:transparent;color:var(--green);cursor:pointer;border-radius:6px;}
 .log-btn:hover{background:var(--green);color:#000;}
 .br-tag{font-size:10px;color:var(--gold);margin-top:6px;font-weight:500;}
+
+/* Lines */
 .game-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;animation:fadeUp 0.3s ease;}
 .game-teams{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
 .team-nm{font-size:14px;font-weight:700;}
@@ -120,6 +151,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 .line-val.spr{color:var(--blue);}.line-val.tot{color:var(--gold);}
 .best-tag{display:inline-block;background:var(--green);color:#000;font-size:6px;font-weight:800;padding:1px 3px;border-radius:2px;margin-left:2px;vertical-align:middle;}
 .game-footer{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+
+/* NRFI */
 .nrfi-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;animation:fadeUp 0.3s ease;}
 .nrfi-game{font-size:13px;font-weight:700;margin-bottom:2px;}
 .nrfi-meta{font-size:10px;color:var(--text2);margin-bottom:10px;}
@@ -134,6 +167,62 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 .nrfi-rec.n{background:rgba(45,255,127,0.1);color:var(--green);border:1px solid rgba(45,255,127,0.3);}
 .nrfi-rec.y{background:rgba(88,166,255,0.1);color:var(--blue);border:1px solid rgba(88,166,255,0.3);}
 .nrfi-rec.s{background:rgba(72,79,88,0.2);color:var(--text2);border:1px solid var(--border);}
+
+/* Live tab */
+.live-header-bar{display:flex;align-items:center;gap:8px;background:rgba(248,81,73,0.08);border:1px solid rgba(248,81,73,0.2);border-radius:10px;padding:10px 14px;margin-bottom:14px;}
+.live-dot{width:8px;height:8px;background:var(--red);border-radius:50%;animation:livePulse 1.5s infinite;}
+.live-header-txt{font-size:11px;font-weight:700;color:var(--red);letter-spacing:1px;text-transform:uppercase;}
+.live-game-card{background:var(--card);border:1px solid rgba(248,81,73,0.25);border-radius:14px;margin-bottom:12px;overflow:hidden;animation:fadeUp 0.3s ease;}
+.live-game-header{padding:14px 16px 10px;border-bottom:1px solid var(--border);}
+.live-scoreboard{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-bottom:10px;}
+.live-team-block{display:flex;flex-direction:column;gap:2px;}
+.live-team-block.away{text-align:left;}
+.live-team-block.home{text-align:right;}
+.live-team-name{font-size:12px;font-weight:700;color:var(--text2);}
+.live-team-score{font-family:var(--display);font-size:36px;letter-spacing:2px;line-height:1;}
+.live-team-score.winning{color:var(--green);}
+.live-team-score.losing{color:var(--text2);}
+.live-team-score.tied{color:var(--text);}
+.live-mid{text-align:center;}
+.live-inning-badge{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;}
+.live-inning-num{font-family:var(--display);font-size:18px;color:var(--red);line-height:1;}
+.live-inning-lbl{font-size:8px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;}
+.live-situation{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.live-sit-pill{font-size:9px;font-weight:600;padding:3px 8px;border-radius:4px;background:var(--card2);color:var(--text2);border:1px solid var(--border);}
+.live-sit-pill.hot{background:rgba(248,81,73,0.1);color:var(--red);border-color:rgba(248,81,73,0.3);}
+.live-sit-pill.warm{background:rgba(240,180,41,0.1);color:var(--gold);border-color:rgba(240,180,41,0.3);}
+.live-sit-pill.cool{background:rgba(45,255,127,0.08);color:var(--green);border-color:rgba(45,255,127,0.3);}
+.live-pitcher-section{padding:12px 16px;border-bottom:1px solid var(--border);background:rgba(28,33,40,0.6);}
+.live-pitcher-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.live-pitcher-block{background:var(--card2);border-radius:8px;padding:10px;}
+.live-pitcher-label{font-size:8px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.live-pitcher-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.live-pitcher-status{font-size:10px;margin-bottom:6px;}
+.live-pitcher-stats{display:flex;gap:8px;flex-wrap:wrap;}
+.live-p-stat{font-size:9px;color:var(--text2);}
+.live-p-stat strong{color:var(--text);font-weight:700;}
+.live-bullpen-alert{font-size:10px;padding:6px 10px;border-radius:6px;margin-top:6px;}
+.live-bullpen-alert.danger{background:rgba(248,81,73,0.1);color:var(--red);border:1px solid rgba(248,81,73,0.2);}
+.live-bullpen-alert.warning{background:rgba(240,180,41,0.1);color:var(--gold);border:1px solid rgba(240,180,41,0.2);}
+.live-bullpen-alert.safe{background:rgba(45,255,127,0.06);color:var(--green);border:1px solid rgba(45,255,127,0.2);}
+.live-bet-section{padding:12px 16px;border-bottom:1px solid var(--border);}
+.live-bet-hd{font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.live-bet-card{background:var(--card2);border-radius:8px;padding:10px;margin-bottom:8px;border-left:3px solid var(--green);}
+.live-bet-card.avoid{border-left-color:var(--red);opacity:0.7;}
+.live-bet-card.neutral{border-left-color:var(--gold);}
+.live-bet-type{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:4px;}
+.live-bet-pick{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.live-bet-reason{font-size:11px;color:var(--text2);line-height:1.5;}
+.live-bet-odds{font-size:13px;font-weight:700;margin-top:6px;}
+.live-log-row{display:flex;gap:6px;margin-top:8px;}
+.live-log-btn{font-size:10px;font-weight:700;padding:5px 12px;border:1px solid var(--green);background:transparent;color:var(--green);cursor:pointer;border-radius:6px;flex:1;}
+.live-log-btn:hover{background:var(--green);color:#000;}
+.live-no-games{text-align:center;padding:48px 16px;}
+.live-no-icon{font-size:40px;margin-bottom:12px;}
+.live-no-txt{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:4px;}
+.live-no-sub{font-size:11px;color:var(--text3);}
+
+/* Goblins */
 .goblin-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;position:relative;overflow:hidden;}
 .goblin-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),#ff8c00);}
 .goblin-badge{font-size:9px;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:6px;}
@@ -143,6 +232,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 .hit-rate-row{display:flex;justify-content:space-between;font-size:10px;font-weight:600;margin-bottom:4px;}
 .goblin-track{height:5px;background:var(--card2);border-radius:3px;overflow:hidden;margin-bottom:10px;}
 .goblin-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),#ff8c00);}
+
+/* Tracker */
 .pnl-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
 .pnl-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;}
 .pnl-num{font-family:var(--display);font-size:26px;letter-spacing:1px;}
@@ -184,6 +275,8 @@ select option{background:var(--card2);}
 .action-btn:hover{background:var(--green);color:#000;}
 .action-btn.gold{border-color:var(--gold);color:var(--gold);}
 .action-btn.gold:hover{background:var(--gold);color:#000;}
+.action-btn.red{border-color:var(--red);color:var(--red);}
+.action-btn.red:hover{background:var(--red);color:#fff;}
 .update-time{font-size:10px;color:var(--text2);}
 .loading{text-align:center;padding:48px 16px;color:var(--text2);}
 .spin{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 12px;}
@@ -196,7 +289,7 @@ select option{background:var(--card2);}
 .mode-bar{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:600;padding:7px 10px;border-radius:8px;margin-bottom:12px;}
 .mode-bar.novig{background:rgba(45,255,127,0.08);color:var(--green);border:1px solid rgba(45,255,127,0.2);}
 .mode-bar.prizepicks{background:rgba(240,180,41,0.08);color:var(--gold);border:1px solid rgba(240,180,41,0.2);}
-@media(max-width:480px){.pnl-num{font-size:20px;}.form-grid{grid-template-columns:1fr;}.line-row{grid-template-columns:70px 1fr 1fr 1fr 1fr;}}
+@media(max-width:480px){.pnl-num{font-size:20px;}.form-grid{grid-template-columns:1fr;}.line-row{grid-template-columns:70px 1fr 1fr 1fr 1fr;}.live-pitcher-row{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -215,31 +308,64 @@ select option{background:var(--card2);}
 <div class="main-nav">
 <button class="nav-btn active" onclick="showTab('potd',this)">⭐ Play of Day</button>
 <button class="nav-btn" onclick="showTab('picks',this)">🎯 Picks</button>
+<button class="nav-btn live-btn" onclick="showTab('live',this)">🔴 Live</button>
 <button class="nav-btn" onclick="showTab('lines',this)">📊 Lines</button>
 <button class="nav-btn" onclick="showTab('nrfi',this)">⚾ NRFI/YRFI</button>
 <button class="nav-btn" onclick="showTab('tracker',this)">📈 Tracker</button>
 <button class="nav-btn" onclick="showTab('learn',this)">🧠 Learn</button>
 </div>
 <div class="main">
+
+<!-- PLAY OF DAY -->
 <div class="section active" id="tab-potd">
 <div class="mode-bar novig" id="mbar-potd"><span>●</span> NOVIG MODE</div>
 <div class="action-row"><button class="action-btn" onclick="loadAll()">↻ Refresh</button><span class="update-time" id="potdTime">Auto-updates on open</span></div>
-<div id="potdWrap"><div class="loading"><div class="spin"></div><p>Finding best play...</p></div></div>
+<div id="potdWrap"><div class="loading"><div class="spin"></div><p>Finding best plays...</p></div></div>
 </div>
+
+<!-- PICKS (ML + Spread + O/U subtabs) -->
 <div class="section" id="tab-picks">
 <div class="mode-bar novig" id="mbar-picks"><span>●</span> NOVIG MODE</div>
-<div id="novigWrap"><div class="action-row"><button class="action-btn" onclick="genPicks()">⚡ Generate Picks</button><span class="update-time" id="picksTime">Tap to generate</span></div><div id="picksWrap"><div class="empty">Tap Generate Picks to see today's sharp plays</div></div></div>
-<div id="ppWrap" style="display:none"><div class="action-row"><button class="action-btn gold" onclick="genGoblins()">🎰 Find Goblins</button><span class="update-time" id="goblinTime">Easy hits only</span></div><div id="goblinWrap"><div class="empty">Tap Find Goblins for today's easy props</div></div></div>
+<div id="novigWrap">
+  <div class="picks-subtab-row">
+    <button class="subtab-btn active" id="stab-ml" onclick="showSubtab('ml',this)">💵 Moneyline</button>
+    <button class="subtab-btn" id="stab-rl" onclick="showSubtab('rl',this)">📐 Run Line ±1.5</button>
+    <button class="subtab-btn" id="stab-ou" onclick="showSubtab('ou',this)">📈 Over/Under</button>
+  </div>
+  <div class="action-row"><button class="action-btn" onclick="genAllPicks()">⚡ Generate All Picks</button><span class="update-time" id="picksTime">Tap to generate</span></div>
+  <div class="subpanel active" id="panel-ml"><div id="mlWrap"><div class="empty">Tap Generate to see moneyline picks</div></div></div>
+  <div class="subpanel" id="panel-rl"><div id="rlWrap"><div class="empty">Tap Generate to see run line picks</div></div></div>
+  <div class="subpanel" id="panel-ou"><div id="ouWrap"><div class="empty">Tap Generate to see over/under picks</div></div></div>
 </div>
+<div id="ppWrap" style="display:none">
+  <div class="action-row"><button class="action-btn gold" onclick="genGoblins()">🎰 Find Goblins</button><span class="update-time" id="goblinTime">Easy hits only</span></div>
+  <div id="goblinWrap"><div class="empty">Tap Find Goblins for today's easy props</div></div>
+</div>
+</div>
+
+<!-- LIVE -->
+<div class="section" id="tab-live">
+<div class="action-row">
+  <button class="action-btn red" onclick="genLive()">🔴 Refresh Live</button>
+  <span class="update-time" id="liveTime">—</span>
+</div>
+<div id="liveWrap"><div class="loading"><div class="spin"></div><p>Loading live games...</p></div></div>
+</div>
+
+<!-- LINES -->
 <div class="section" id="tab-lines">
 <div class="action-row"><button class="action-btn" id="refreshBtn" onclick="loadOdds()">↻ Refresh Lines</button><span class="update-time" id="linesTime">—</span></div>
 <div id="linesWrap"><div class="loading"><div class="spin"></div><p>Loading live lines...</p></div></div>
 <div class="quota" id="quotaBar"></div>
 </div>
+
+<!-- NRFI/YRFI -->
 <div class="section" id="tab-nrfi">
 <div class="action-row"><button class="action-btn" onclick="genNRFI()">⚡ Analyze Today</button><span class="update-time" id="nrfiTime">—</span></div>
 <div id="nrfiWrap"><div class="empty">Hit Analyze to see NRFI/YRFI plays</div></div>
 </div>
+
+<!-- TRACKER -->
 <div class="section" id="tab-tracker">
 <div class="pnl-row">
 <div class="pnl-box"><div class="pnl-num neu" id="pnlVal">$0</div><div class="pnl-nm">P&L</div></div>
@@ -250,7 +376,7 @@ select option{background:var(--card2);}
 <div class="form-hd">Log a Bet</div>
 <div class="form-grid">
 <div class="field"><label>Pick</label><input type="text" id="bName" placeholder="e.g. Braves ML"></div>
-<div class="field"><label>Type</label><select id="bType"><option value="ML">Moneyline</option><option value="RL">Run Line</option><option value="OVER">Over</option><option value="UNDER">Under</option><option value="NRFI">NRFI</option><option value="YRFI">YRFI</option><option value="PROP">Prop</option></select></div>
+<div class="field"><label>Type</label><select id="bType"><option value="ML">Moneyline</option><option value="RL">Run Line</option><option value="OVER">Over</option><option value="UNDER">Under</option><option value="NRFI">NRFI</option><option value="YRFI">YRFI</option><option value="PROP">Prop</option><option value="LIVE">Live Bet</option></select></div>
 <div class="field"><label>Wager ($)</label><input type="number" id="bWager" placeholder="25"></div>
 <div class="field"><label>Odds</label><input type="number" id="bOdds" placeholder="-150"></div>
 </div>
@@ -258,6 +384,8 @@ select option{background:var(--card2);}
 </div>
 <div id="betList"><div class="empty">No bets logged yet</div></div>
 </div>
+
+<!-- LEARN -->
 <div class="section" id="tab-learn">
 <div style="font-size:11px;color:var(--text2);margin-bottom:12px;line-height:1.6;">Losses auto-log here. Add notes on why you lost — the model tracks your patterns.</div>
 <div class="sec-hd">Loss Log</div>
@@ -265,30 +393,28 @@ select option{background:var(--card2);}
 <div class="sec-hd">Pattern Analysis</div>
 <div id="patternLog"><div class="empty">Need 5+ settled bets</div></div>
 </div>
-</div>
+
+</div><!-- /main -->
 <script>
 const API_KEY='9e64797b7b1402ae87bb366a5b2e0e24';
 let sport='baseball_mlb',sportKey='mlb',mode='novig',games=[],mlbPitchers={},selAmts={};
 const DB={get:k=>{try{return JSON.parse(localStorage.getItem(k)||'null');}catch{return null;}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}}};
 const getBets=()=>DB.get('gfn_bets')||[],saveBets=b=>DB.set('gfn_bets',b),getLosses=()=>DB.get('gfn_losses')||[],saveLosses=l=>DB.set('gfn_losses',l);
 
-// Real MLB pitchers
+// ── MLB PITCHER DATA ──────────────────────────────────────────────────────
 async function fetchMLBPitchers(){
   try{
     const today=new Date().toISOString().split('T')[0];
-    const url=`https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${today}&hydrate=probablePitcher`;
-    const res=await fetch(url);
+    const res=await fetch(`https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${today}&hydrate=probablePitcher`);
     if(!res.ok) return {};
     const data=await res.json();
     const p={};
-    (data.dates||[]).forEach(d=>{
-      (d.games||[]).forEach(g=>{
-        const ht=g.teams?.home?.team?.name,at=g.teams?.away?.team?.name;
-        const hp=g.teams?.home?.probablePitcher,ap=g.teams?.away?.probablePitcher;
-        if(ht&&hp) p[ht]={name:hp.fullName||'TBD',id:hp.id};
-        if(at&&ap) p[at]={name:ap.fullName||'TBD',id:ap.id};
-      });
-    });
+    (data.dates||[]).forEach(d=>(d.games||[]).forEach(g=>{
+      const ht=g.teams?.home?.team?.name,at=g.teams?.away?.team?.name;
+      const hp=g.teams?.home?.probablePitcher,ap=g.teams?.away?.probablePitcher;
+      if(ht&&hp) p[ht]={name:hp.fullName||'TBD',id:hp.id};
+      if(at&&ap) p[at]={name:ap.fullName||'TBD',id:ap.id};
+    }));
     return p;
   }catch(e){return {};}
 }
@@ -296,16 +422,75 @@ async function fetchPitcherStats(id){
   if(!id) return null;
   try{
     const yr=new Date().getFullYear();
-    const url=`https://statsapi.mlb.com/api/v1/people/${id}/stats?stats=season&group=pitching&season=${yr}`;
-    const res=await fetch(url);
+    const res=await fetch(`https://statsapi.mlb.com/api/v1/people/${id}/stats?stats=season&group=pitching&season=${yr}`);
     if(!res.ok) return null;
-    const data=await res.json();
-    const s=data.stats?.[0]?.splits?.[0]?.stat;
+    const s=((await res.json()).stats||[])[0]?.splits?.[0]?.stat;
     if(!s) return null;
     return{era:parseFloat(s.era||'0').toFixed(2),whip:parseFloat(s.whip||'0').toFixed(2),kPer9:parseFloat(s.strikeoutsPer9Inn||'0').toFixed(1),ip:s.inningsPitched||'0',wins:s.wins||0,losses:s.losses||0};
   }catch(e){return null;}
 }
 
+// ── MLB LIVE GAME DATA ────────────────────────────────────────────────────
+async function fetchLiveMLBGames(){
+  try{
+    const today=new Date().toISOString().split('T')[0];
+    const res=await fetch(`https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${today}&hydrate=linescore,boxscore,team`);
+    if(!res.ok) return [];
+    const data=await res.json();
+    const live=[];
+    (data.dates||[]).forEach(d=>(d.games||[]).forEach(g=>{
+      const s=g.status?.abstractGameState;
+      if(s==='Live'||s==='In Progress'||g.status?.detailedState==='In Progress'){
+        live.push({
+          gamePk:g.gamePk,
+          home:g.teams?.home?.team?.name||'Home',
+          away:g.teams?.away?.team?.name||'Away',
+          homeScore:g.teams?.home?.score??'?',
+          awayScore:g.teams?.away?.score??'?',
+          inning:g.linescore?.currentInning||'?',
+          inningHalf:g.linescore?.inningHalf||'',
+          outs:g.linescore?.outs??0,
+          balls:g.linescore?.balls??0,
+          strikes:g.linescore?.strikes??0,
+          status:g.status?.detailedState||'Live',
+        });
+      }
+    }));
+    return live;
+  }catch(e){return [];}
+}
+
+async function fetchLivePitcher(gamePk){
+  try{
+    const res=await fetch(`https://statsapi.mlb.com/api/v1.1/game/${gamePk}/feed/live?fields=liveData,boxscore,teams,pitchers,currentPlay,matchup`);
+    if(!res.ok) return null;
+    const d=await res.json();
+    const home=d.liveData?.boxscore?.teams?.home;
+    const away=d.liveData?.boxscore?.teams?.away;
+    const getPitcher=(teamData)=>{
+      const ids=teamData?.pitchers||[];
+      if(!ids.length) return null;
+      const curId=ids[ids.length-1];
+      const p=teamData?.players?.[`ID${curId}`];
+      if(!p) return null;
+      const gs=p.gameStats||{};
+      const ss=p.seasonStats||{};
+      return{
+        name:p.person?.fullName||'Unknown',
+        ip:gs.pitchingPitcherGameStats?.inningsPitched||gs.inningsPitched||'0',
+        er:gs.pitchingPitcherGameStats?.earnedRuns??gs.earnedRuns??0,
+        k:gs.pitchingPitcherGameStats?.strikeOuts??gs.strikeOuts??0,
+        pc:gs.pitchingPitcherGameStats?.pitchesThrown??gs.pitchesThrown??0,
+        seasonERA:ss.pitching?.era||'—',
+        seasonWHIP:ss.pitching?.whip||'—',
+        isStarter:ids.indexOf(curId)===0,
+      };
+    };
+    return{home:getPitcher(home),away:getPitcher(away)};
+  }catch(e){return null;}
+}
+
+// ── NAV / MODE ────────────────────────────────────────────────────────────
 function setMode(m){
   mode=m;
   document.getElementById('modeNovig').classList.toggle('active',m==='novig');
@@ -324,8 +509,19 @@ function showTab(id,el){
   el.classList.add('active');
   if(id==='tracker') renderTracker();
   if(id==='learn') renderLearn();
+  if(id==='live') genLive();
+}
+function showSubtab(id,el){
+  document.querySelectorAll('.subpanel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.subtab-btn').forEach(b=>{b.classList.remove('active','rl','ou');});
+  document.getElementById('panel-'+id).classList.add('active');
+  el.classList.add('active');
+  if(id==='rl') el.classList.add('rl');
+  if(id==='ou') el.classList.add('ou');
 }
 function setSport(s,el,key){sport=s;sportKey=key;document.querySelectorAll('.sport-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');loadOdds();}
+
+// ── HELPERS ───────────────────────────────────────────────────────────────
 const fmt=v=>!v&&v!==0?'—':v>0?'+'+v:''+v;
 const oc=v=>!v?'neu':v<0?'fav':'dog';
 const fmtT=d=>{const dt=new Date(d);return dt.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})+' '+dt.toLocaleDateString([],{month:'short',day:'numeric'});};
@@ -335,30 +531,31 @@ const pay=(w,o)=>o>0?(w*o/100).toFixed(2):(w*100/Math.abs(o)).toFixed(2);
 const brec=c=>c>=70?'Rec: $15–$30':c>=60?'Rec: $8–$20':'Rec: $5–$10';
 const getAvgTotal=g=>{const overs=g.bookmakers?.flatMap(b=>b.markets?.filter(m=>m.key==='totals').flatMap(m=>m.outcomes.filter(o=>o.name==='Over').map(o=>o.point)))||[];return overs.length?overs.reduce((a,b)=>a+b,0)/overs.length:null;};
 const trueAvg=prices=>{if(!prices.length) return null;const probs=prices.map(p=>p<0?(-p)/(-p+100):100/(p+100));const avg=probs.reduce((a,b)=>a+b,0)/probs.length;if(avg>=0.5) return Math.round(-(avg/(1-avg))*100);return Math.round((1-avg)/avg*100);};
+const isPreGame=g=>new Date(g.commence_time).getTime()>Date.now();
 
 const PF={'Colorado Rockies':1.19,'Cincinnati Reds':1.09,'Boston Red Sox':1.06,'Texas Rangers':1.06,'Philadelphia Phillies':1.04,'Baltimore Orioles':1.03,'New York Yankees':1.01,'Toronto Blue Jays':1.01,'Atlanta Braves':1.02,'Minnesota Twins':1.00,'Kansas City Royals':0.99,'Washington Nationals':0.99,'St. Louis Cardinals':0.98,'Cleveland Guardians':0.98,'Houston Astros':0.98,'Detroit Tigers':0.97,'Chicago Cubs':0.97,'Los Angeles Dodgers':0.97,'New York Mets':0.96,'Milwaukee Brewers':0.96,'Tampa Bay Rays':0.95,'Oakland Athletics':0.94,'San Francisco Giants':0.93,'Seattle Mariners':0.92,'San Diego Padres':0.92,'Miami Marlins':0.91,'Pittsburgh Pirates':0.97,'Arizona Diamondbacks':1.01,'Los Angeles Angels':1.00,'Chicago White Sox':1.00};
 
-function getTeamAnalytics(team,homeTeam,sportKey){
+function getTeamAnalytics(team,homeTeam,sk){
   const seed=(team+homeTeam).split('').reduce((a,c)=>a+c.charCodeAt(0),0);
   const r=(min,max,s)=>parseFloat((min+((seed*s*7919)%1000)/1000*(max-min)).toFixed(2));
-  if(sportKey==='mlb') return{wRC:Math.round(r(82,132,7)),kPct:r(17,28,5),bullpenERA:r(3.0,5.4,13),parkFactor:PF[homeTeam]||1.00,isHome:team===homeTeam};
-  if(sportKey==='nba') return{oRtg:Math.round(r(108,122,1)),dRtg:Math.round(r(108,122,3)),pace:r(96,104,5),restDays:Math.round(r(1,4,9)),threePct:r(33,40,7)};
+  if(sk==='mlb') return{wRC:Math.round(r(82,132,7)),kPct:r(17,28,5),bullpenERA:r(3.0,5.4,13),parkFactor:PF[homeTeam]||1.00,isHome:team===homeTeam};
+  if(sk==='nba') return{oRtg:Math.round(r(108,122,1)),dRtg:Math.round(r(108,122,3)),pace:r(96,104,5),restDays:Math.round(r(1,4,9)),threePct:r(33,40,7)};
   return{gf:r(2.8,3.8,1),ga:r(2.6,3.6,3),svPct:r(0.895,0.930,7),ppPct:r(15,28,5)};
 }
 
-function calcConf(prices,isdog,gap,ta,oppTA,sportKey,hasP){
+function calcConf(prices,isdog,gap,ta,oppTA,sk,hasP){
   let line=0,analytics=0;
   line+=gap>18?16:gap>10?10:gap>5?6:2;
   line+=prices.length>=6?10:prices.length>=4?6:2;
   line+=isdog?8:0;
   line+=(Math.random()*6-3);
-  if(sportKey==='mlb'){
+  if(sk==='mlb'){
     analytics+=ta.wRC>115?8:ta.wRC>105?4:ta.wRC<88?-4:0;
     analytics+=ta.kPct<20?5:ta.kPct>26?-3:0;
     analytics+=ta.bullpenERA<3.5?6:ta.bullpenERA>4.8?-3:0;
     analytics+=ta.isHome&&ta.parkFactor>1.05?4:ta.isHome&&ta.parkFactor<0.94?-3:0;
     analytics+=hasP?4:0;
-  } else if(sportKey==='nba'){
+  } else if(sk==='nba'){
     analytics+=ta.oRtg>118?10:ta.oRtg>113?5:ta.oRtg<110?-5:0;
     analytics+=oppTA.dRtg>118?8:oppTA.dRtg<110?-6:0;
     const restAdv=(ta.restDays||2)-(oppTA.restDays||2);
@@ -376,60 +573,35 @@ function lineEdge(prices,gap,isdog,odds,books){
   const ip=parseFloat(implP(odds));
   const vf=Math.max(0,(ip-4.5)).toFixed(1);
   let t=`<strong>${books} sportsbooks</strong> checked. `;
-  if(gap>15) t+=`A <strong class="pos">${gap}-point gap</strong> between best and worst price — when books can't agree, one side is mispriced. That's where value lives. `;
-  else if(gap>7) t+=`A <strong>${gap}-point gap</strong> across books — market hasn't settled. Watch line direction. `;
-  else t+=`Books aligned at a <strong>${gap}-point gap</strong>. Edge from analytics, not line movement. `;
-  if(isdog) t+=`Underdog at <strong>${fmt(odds)}</strong>. Public defaults to favorites. When sharp money moves a dog line, it's one of the strongest signals in the sport. `;
-  else t+=`Favorite at <strong>${fmt(odds)}</strong>. Key: is the line moving from sharp action or public piling on? Sharp goes against public. `;
-  t+=`Vig-removed probability is approximately <strong>${vf}%</strong>. If your read says it's higher, this is +EV.`;
+  if(gap>15) t+=`<strong class="pos">${gap}-point gap</strong> between best/worst — one side is mispriced. `;
+  else if(gap>7) t+=`<strong>${gap}-point gap</strong> — market hasn't settled. `;
+  else t+=`Books aligned at <strong>${gap}pt gap</strong>. Edge from analytics. `;
+  t+=isdog?`Dog at <strong>${fmt(odds)}</strong>. Sharp money on dogs is a strong signal. `:`Fav at <strong>${fmt(odds)}</strong>. Watch for sharp vs public divergence. `;
+  t+=`Vig-free probability ~<strong>${vf}%</strong>.`;
   return t;
 }
 
-function analyticsEdge(team,homeTeam,ta,oppTA,pData,oppPData,sportKey){
+function analyticsEdge(team,homeTeam,ta,oppTA,pData,oppPData,sk){
   const isHome=team===homeTeam;
   let t='';
-  if(sportKey==='mlb'){
-    if(pData&&pData.name&&pData.name!=='TBD'&&pData.stats){
-      const ps=pData.stats;
-      t+=`<strong>${team}</strong> sends out <strong>${pData.name}</strong> (ERA ${ps.era}, WHIP ${ps.whip}, K/9 ${ps.kPer9}). `;
-    }
-    if(oppPData&&oppPData.name&&oppPData.name!=='TBD'&&oppPData.stats){
-      const ops=oppPData.stats;
-      const oE=parseFloat(ops.era);
-      if(oE>4.5) t+=`Opponent starter <strong>${oppPData.name}</strong> has a <span class="neg">${ops.era} ERA</span> — hittable arm. Sharp money fades bad ERA pitchers immediately before the public catches on. `;
-      else if(oE<3.0) t+=`Opponent starter <strong>${oppPData.name}</strong> is dealing at <span class="pos">${ops.era} ERA</span> — tough matchup. `;
-      else t+=`Opponent starter <strong>${oppPData.name}</strong> at <strong>${ops.era} ERA</strong> — manageable. `;
-    }
-    t+=`<br><br>Lineup wRC+: <strong>${ta.wRC}</strong> (league avg 100). `;
-    if(ta.wRC>115) t+=`<span class="pos">Elite offense</span> — scores consistently. `;
-    else if(ta.wRC<88) t+=`<span class="warn">Below-average offense</span> — depends on pitching. `;
-    t+=`K rate <strong>${ta.kPct}%</strong>. `;
-    if(ta.kPct<20) t+=`<span class="pos">Hard to strike out</span> — grinds down pitchers. `;
-    else if(ta.kPct>26) t+=`<span class="warn">High K rate</span> — vulnerable to power arms. `;
-    t+=`Bullpen ERA <strong>${ta.bullpenERA}</strong>. `;
-    if(ta.bullpenERA<3.5) t+=`<span class="pos">Elite bullpen</span> — holds leads. `;
-    else if(ta.bullpenERA>4.8) t+=`<span class="warn">Shaky bullpen</span> — leads aren't safe. `;
-    if(isHome){t+=`Park factor <strong>${ta.parkFactor}</strong>. `;if(ta.parkFactor>1.06) t+=`<span class="pos">Hitter-friendly park</span>. `;else if(ta.parkFactor<0.94) t+=`<span class="warn">Pitcher-friendly park</span>. `;}
-  } else if(sportKey==='nba'){
+  if(sk==='mlb'){
+    if(pData?.name&&pData.name!=='TBD'&&pData.stats){const ps=pData.stats;t+=`<strong>${pData.name}</strong> starting — ERA ${ps.era}, WHIP ${ps.whip}, K/9 ${ps.kPer9}. `;}
+    if(oppPData?.name&&oppPData.name!=='TBD'&&oppPData.stats){const ops=oppPData.stats,oE=parseFloat(ops.era);t+=oE>4.5?`Opp SP <strong>${oppPData.name}</strong>: <span class="neg">${ops.era} ERA</span> — hittable. `:oE<3.0?`Opp SP <strong>${oppPData.name}</strong>: <span class="pos">${ops.era} ERA</span> — tough matchup. `:`Opp SP <strong>${oppPData.name}</strong>: ${ops.era} ERA — manageable. `;}
+    t+=`wRC+: <strong>${ta.wRC}</strong>. `;
+    if(ta.wRC>115) t+=`<span class="pos">Elite offense.</span> `;
+    else if(ta.wRC<88) t+=`<span class="warn">Below-avg offense.</span> `;
+    t+=`K%: <strong>${ta.kPct}%</strong>. Bullpen ERA: <strong>${ta.bullpenERA}</strong>. `;
+    if(ta.bullpenERA<3.5) t+=`<span class="pos">Elite pen — holds leads.</span> `;
+    else if(ta.bullpenERA>4.8) t+=`<span class="warn">Shaky pen.</span> `;
+    if(isHome){t+=`Park factor: <strong>${ta.parkFactor}</strong>. `;if(ta.parkFactor>1.06) t+=`<span class="pos">Hitter-friendly.</span>`;else if(ta.parkFactor<0.94) t+=`<span class="warn">Pitcher-friendly.</span>`;}
+  } else if(sk==='nba'){
     const restAdv=(ta.restDays||2)-(oppTA.restDays||2);
-    t+=`<strong>${team}</strong> offensive rating: <strong>${ta.oRtg}</strong>. `;
-    if(ta.oRtg>118) t+=`<span class="pos">Top-tier offense</span>. `;
-    else if(ta.oRtg<110) t+=`<span class="warn">Below-average offense</span>. `;
-    t+=`Opp defensive rating: <strong>${oppTA.dRtg}</strong>. `;
-    if(oppTA.dRtg>118) t+=`<span class="pos">Soft defense</span> — easier scoring environment. `;
-    else if(oppTA.dRtg<110) t+=`<span class="neg">Elite defense</span> — harder to score. `;
-    t+=`Rest: <strong>${ta.restDays}</strong> vs <strong>${oppTA.restDays}</strong>. `;
-    if(restAdv>1) t+=`<span class="pos">Rest advantage</span> — underpriced in NBA betting. `;
-    else if(restAdv<-1) t+=`<span class="neg">Rest disadvantage</span> — real variance factor. `;
-    t+=`3-point rate: <strong>${ta.threePct}%</strong>. Variance is the biggest swing factor in NBA outcomes.`;
+    t+=`oRtg: <strong>${ta.oRtg}</strong>. Opp dRtg: <strong>${oppTA.dRtg}</strong>. Rest: <strong>${ta.restDays}d</strong> vs <strong>${oppTA.restDays}d</strong>. `;
+    if(restAdv>1) t+=`<span class="pos">Rest advantage.</span> `;
+    else if(restAdv<-1) t+=`<span class="neg">Rest disadvantage.</span> `;
   } else {
-    t+=`<strong>${team}</strong> GF/G: <strong>${ta.gf}</strong>. Opp GA/G: <strong>${oppTA.ga}</strong>. `;
-    if(ta.gf>3.3&&oppTA.ga>3.2) t+=`<span class="pos">Strong offensive matchup</span>. `;
-    else if(oppTA.ga<2.8) t+=`<span class="neg">Tight opposing defense</span>. `;
-    t+=`SV%: <strong>${ta.svPct}</strong>. `;
-    if(ta.svPct>0.920) t+=`<span class="pos">Elite goaltending</span>. `;
-    else if(ta.svPct<0.900) t+=`<span class="neg">Below-average goaltending</span>. `;
-    t+=`PP: <strong>${ta.ppPct.toFixed(1)}%</strong>. Special teams underrated in NHL betting.`;
+    t+=`GF/G: <strong>${ta.gf}</strong>. Opp GA/G: <strong>${oppTA.ga}</strong>. SV%: <strong>${ta.svPct}</strong>. `;
+    if(ta.svPct>0.920) t+=`<span class="pos">Elite goaltending.</span>`;
   }
   return t;
 }
@@ -438,38 +610,21 @@ function pitcherMatchupHTML(hp,ap,homeTeam,awayTeam){
   if(!hp&&!ap) return '';
   const h=hp||{name:'TBD',stats:null},a=ap||{name:'TBD',stats:null};
   const eraColor=era=>parseFloat(era)<3.0?'good':parseFloat(era)>4.5?'bad':'avg';
-  return `<div class="analysis-section">
-    <div class="analysis-header"><span>⚾</span><span class="analysis-title matchup">STARTING PITCHER MATCHUP — REAL MLB DATA</span></div>
-    <div class="matchup-grid">
-      <div class="pitcher-box">
-        <div class="pitcher-name">${a.name}</div>
-        <div class="pitcher-team-lbl">${awayTeam.split(' ').slice(-1)[0]}</div>
-        ${a.stats?`<div class="p-stat"><div class="p-val ${eraColor(a.stats.era)}">${a.stats.era}</div><div class="p-lbl">ERA</div></div><div class="p-stat"><div class="p-val">${a.stats.whip}</div><div class="p-lbl">WHIP</div></div><div class="p-stat"><div class="p-val">${a.stats.kPer9}</div><div class="p-lbl">K/9</div></div><div class="p-stat"><div class="p-val">${a.stats.ip}</div><div class="p-lbl">IP</div></div>`:`<div style="font-size:10px;color:var(--text2);margin-top:6px">Stats loading...</div>`}
-      </div>
-      <div class="vs-circle">VS</div>
-      <div class="pitcher-box">
-        <div class="pitcher-name">${h.name}</div>
-        <div class="pitcher-team-lbl">${homeTeam.split(' ').slice(-1)[0]}</div>
-        ${h.stats?`<div class="p-stat"><div class="p-val ${eraColor(h.stats.era)}">${h.stats.era}</div><div class="p-lbl">ERA</div></div><div class="p-stat"><div class="p-val">${h.stats.whip}</div><div class="p-lbl">WHIP</div></div><div class="p-stat"><div class="p-val">${h.stats.kPer9}</div><div class="p-lbl">K/9</div></div><div class="p-stat"><div class="p-val">${h.stats.ip}</div><div class="p-lbl">IP</div></div>`:`<div style="font-size:10px;color:var(--text2);margin-top:6px">Stats loading...</div>`}
-      </div>
-    </div>
-  </div>`;
+  return `<div class="analysis-section"><div class="analysis-header"><span>⚾</span><span class="analysis-title matchup">STARTER MATCHUP — REAL MLB DATA</span></div><div class="matchup-grid"><div class="pitcher-box"><div class="pitcher-name">${a.name}</div><div class="pitcher-team-lbl">${awayTeam.split(' ').slice(-1)[0]}</div>${a.stats?`<div class="p-stat"><div class="p-val ${eraColor(a.stats.era)}">${a.stats.era}</div><div class="p-lbl">ERA</div></div><div class="p-stat"><div class="p-val">${a.stats.whip}</div><div class="p-lbl">WHIP</div></div><div class="p-stat"><div class="p-val">${a.stats.kPer9}</div><div class="p-lbl">K/9</div></div>`:'<div style="font-size:10px;color:var(--text2);margin-top:6px">TBD</div>'}</div><div class="vs-circle">VS</div><div class="pitcher-box"><div class="pitcher-name">${h.name}</div><div class="pitcher-team-lbl">${homeTeam.split(' ').slice(-1)[0]}</div>${h.stats?`<div class="p-stat"><div class="p-val ${eraColor(h.stats.era)}">${h.stats.era}</div><div class="p-lbl">ERA</div></div><div class="p-stat"><div class="p-val">${h.stats.whip}</div><div class="p-lbl">WHIP</div></div><div class="p-stat"><div class="p-val">${h.stats.kPer9}</div><div class="p-lbl">K/9</div></div>`:'<div style="font-size:10px;color:var(--text2);margin-top:6px">TBD</div>'}</div></div></div>`;
 }
 
 const BOOKS=['draftkings','fanduel','betmgm','caesars','pointsbet_us','williamhill_us','barstool','bovada'];
-
 async function loadOdds(){
   const btn=document.getElementById('refreshBtn'),wrap=document.getElementById('linesWrap');
   if(btn){btn.disabled=true;btn.textContent='↻ Loading...';}
   if(wrap) wrap.innerHTML=`<div class="loading"><div class="spin"></div><p>Pulling live lines...</p></div>`;
   try{
-    const url=`https://api.the-odds-api.com/v4/sports/${sport}/odds/?apiKey=${API_KEY}&regions=us&markets=h2h,spreads,totals&oddsFormat=american&bookmakers=${BOOKS.join(',')}`;
-    const res=await fetch(url);
+    const res=await fetch(`https://api.the-odds-api.com/v4/sports/${sport}/odds/?apiKey=${API_KEY}&regions=us&markets=h2h,spreads,totals&oddsFormat=american&bookmakers=${BOOKS.join(',')}`);
     const rem=res.headers.get('x-requests-remaining'),used=res.headers.get('x-requests-used');
     if(!res.ok){const e=await res.json();throw new Error(e.message||'API error');}
     const data=await res.json();
     games=data;
-    if(wrap) wrap.innerHTML=data.length?data.map((g,i)=>renderGame(g,i)).join(''):`<div class="err">No games found. Try another sport.</div>`;
+    if(wrap) wrap.innerHTML=data.length?data.map((g,i)=>renderGame(g,i)).join(''):`<div class="err">No games found.</div>`;
     const lt=document.getElementById('linesTime');if(lt) lt.textContent='Updated '+new Date().toLocaleTimeString();
     const qb=document.getElementById('quotaBar');if(qb&&rem) qb.innerHTML=`Quota: <span>${rem}</span> remaining · ${used} used`;
     return data;
@@ -485,34 +640,36 @@ function renderGame(game,idx){
   const bH=bestLine(ml,home),bA=bestLine(ml,away);
   const bks=ml.slice(0,7);
   const isMlb=sport==='baseball_mlb';
-  let rows=bks.map(b=>{
+  const rows=bks.map(b=>{
     const hO=b.outcomes?.find(o=>o.name===home),aO=b.outcomes?.find(o=>o.name===away);
     const sB=sp.find(s=>s.key===b.key),tB=tot.find(t=>t.key===b.key);
     const hSp=sB?.outcomes?.find(o=>o.name===home),over=tB?.outcomes?.find(o=>o.name==='Over');
-    let spD='—';
-    if(hSp&&hSp.point!=null) spD=isMlb?(hSp.point<0?`-1.5`:'+1.5'):(hSp.point>0?'+'+hSp.point:''+hSp.point);
-    return `<div class="line-row"><div class="book-nm">${b.title||b.key}</div><div class="line-val ${oc(aO?.price)}">${fmt(aO?.price)}${bA.book===b.key?'<span class="best-tag">BEST</span>':''}</div><div class="line-val ${oc(hO?.price)}">${fmt(hO?.price)}${bH.book===b.key?'<span class="best-tag">BEST</span>':''}</div><div class="line-val spr">${spD}</div><div class="line-val tot">${over&&over.point?'O'+over.point:'—'}</div></div>`;
+    const spD=isMlb?(hSp?.point!=null?(hSp.point<0?'−1.5':'+1.5'):'—'):(hSp?.point!=null?(hSp.point>0?'+'+hSp.point:''+hSp.point):'—');
+    return `<div class="line-row"><div class="book-nm">${b.title||b.key}</div><div class="line-val ${oc(aO?.price)}">${fmt(aO?.price)}${bA.book===b.key?'<span class="best-tag">BEST</span>':''}</div><div class="line-val ${oc(hO?.price)}">${fmt(hO?.price)}${bH.book===b.key?'<span class="best-tag">BEST</span>':''}</div><div class="line-val spr">${spD}</div><div class="line-val tot">${over?.point?'O'+over.point:'—'}</div></div>`;
   }).join('');
   return `<div class="game-card" style="animation-delay:${idx*0.04}s"><div class="game-teams"><div><div class="team-nm">${away}</div><div class="vs-row">vs</div><div class="team-nm">${home}</div></div><div><div class="game-time-disp">${fmtT(game.commence_time)}</div></div></div><div class="line-row hdr"><div class="book-nm">BOOK</div><div class="line-val">${away.split(' ').pop()}</div><div class="line-val">${home.split(' ').pop()}</div><div class="line-val spr">${isMlb?'RL':'SPREAD'}</div><div class="line-val tot">TOTAL</div></div>${rows}<div class="game-footer"><span class="pill">${away.split(' ').pop()}: ${implP(bA.price)||'—'}% imp</span><span class="pill">${home.split(' ').pop()}: ${implP(bH.price)||'—'}% imp</span><span class="pill gold">${bks.length} books</span></div></div>`;
 }
 
-async function buildPicks(gs){
-  const picks=[];
-  let pitchers={};
-  if(sportKey==='mlb'){
-    pitchers=await fetchMLBPitchers();
-    for(const team of Object.keys(pitchers)){
-      if(pitchers[team].id){const stats=await fetchPitcherStats(pitchers[team].id);if(stats) pitchers[team].stats=stats;}
-    }
+// ── BUILD PICKS ───────────────────────────────────────────────────────────
+async function ensurePitchers(){
+  if(sportKey==='mlb'&&!Object.keys(mlbPitchers).length){
+    const p=await fetchMLBPitchers();
+    for(const t of Object.keys(p)){if(p[t].id){const s=await fetchPitcherStats(p[t].id);if(s) p[t].stats=s;}}
+    mlbPitchers=p;
   }
-  mlbPitchers=pitchers;
-  for(const game of gs){
+  return mlbPitchers;
+}
+
+async function buildMLPicks(gs){
+  const pitchers=await ensurePitchers();
+  const picks=[];
+  const pregame=gs.filter(isPreGame);
+  for(const game of pregame){
     const home=game.home_team,away=game.away_team;
     const ml=game.bookmakers?.flatMap(b=>b.markets?.filter(m=>m.key==='h2h').map(m=>({key:b.key,outcomes:m.outcomes})))||[];
     if(ml.length<2) continue;
     const at=getAvgTotal(game);
     const hp=pitchers[home]||null,ap=pitchers[away]||null;
-    const hasP=!!(hp||ap);
     for(const team of [home,away]){
       const prices=ml.map(b=>(b.outcomes||[]).find(o=>o.name===team)?.price).filter(p=>p!=null&&!isNaN(p));
       if(prices.length<2) continue;
@@ -523,73 +680,365 @@ async function buildPicks(gs){
       const ta=getTeamAnalytics(team,home,sportKey);
       const oppTeam=team===home?away:home;
       const oppTA=getTeamAnalytics(oppTeam,home,sportKey);
-      const conf=calcConf(prices,isdog,gap,ta,oppTA,sportKey,hasP);
+      const conf=calcConf(prices,isdog,gap,ta,oppTA,sportKey,!!(hp||ap));
       const myP=team===home?hp:ap,oppP=team===home?ap:hp;
-      picks.push({id:`${game.id||Date.now()}_${team.replace(/\s/g,'_')}`,team,opponent:oppTeam,homeTeam:home,type:'ML',odds,conf,isdog,gap,books:prices.length,gameTime:game.commence_time,at,lineEdgeTxt:lineEdge(prices,gap,isdog,odds,prices.length),analyticsTxt:analyticsEdge(team,home,ta,oppTA,myP,oppP,sportKey),matchupHTML:sportKey==='mlb'?pitcherMatchupHTML(hp,ap,home,away):''});
+      picks.push({betType:'ML',id:`ml_${game.id||Date.now()}_${team.replace(/\s/g,'_')}`,team,opponent:oppTeam,homeTeam:home,awayTeam:away,type:'ML',odds,conf,isdog,gap,books:prices.length,gameTime:game.commence_time,at,lineEdgeTxt:lineEdge(prices,gap,isdog,odds,prices.length),analyticsTxt:analyticsEdge(team,home,ta,oppTA,myP,oppP,sportKey),matchupHTML:sportKey==='mlb'?pitcherMatchupHTML(hp,ap,home,away):''});
     }
   }
   return picks.sort((a,b)=>b.conf-a.conf);
 }
 
+async function buildRLPicks(gs){
+  const picks=[];
+  const pregame=gs.filter(isPreGame);
+  for(const game of pregame){
+    const home=game.home_team,away=game.away_team;
+    const sp=game.bookmakers?.flatMap(b=>b.markets?.filter(m=>m.key==='spreads').map(m=>({key:b.key,outcomes:m.outcomes})))||[];
+    if(!sp.length) continue;
+    for(const team of [home,away]){
+      const isHome=team===home;
+      const prices=sp.map(b=>(b.outcomes||[]).find(o=>o.name===team)?.price).filter(p=>p!=null&&!isNaN(p));
+      if(prices.length<2) continue;
+      // MLB always ±1.5 run line
+      const spreadDisp=sportKey==='baseball_mlb'?(isHome?'−1.5':'+1.5'):(()=>{const pt=sp[0]?.outcomes?.find(o=>o.name===team)?.point||0;return pt>0?'+'+pt:''+pt;})();
+      const max=Math.max(...prices),min=Math.min(...prices),gap=Math.round(max-min);
+      const odds=trueAvg(prices);
+      if(!odds) continue;
+      const isdog=odds>0;
+      const ta=getTeamAnalytics(team,home,sportKey);
+      const oppTeam=team===home?away:home;
+      const oppTA=getTeamAnalytics(oppTeam,home,sportKey);
+      const conf=Math.min(74,Math.max(44,calcConf(prices,isdog,gap,ta,oppTA,sportKey,false)-3));
+      picks.push({betType:'RL',id:`rl_${game.id||Date.now()}_${team.replace(/\s/g,'_')}`,team,opponent:oppTeam,homeTeam:home,spreadDisp,type:'RL',odds,conf,isdog,gap,books:prices.length,gameTime:game.commence_time});
+    }
+  }
+  return picks.sort((a,b)=>b.conf-a.conf);
+}
+
+async function buildOUPicks(gs){
+  const picks=[];
+  const pregame=gs.filter(isPreGame);
+  for(const game of pregame){
+    const home=game.home_team,away=game.away_team;
+    const tot=game.bookmakers?.flatMap(b=>b.markets?.filter(m=>m.key==='totals').map(m=>({key:b.key,outcomes:m.outcomes})))||[];
+    if(!tot.length) continue;
+    const overs=tot.map(b=>(b.outcomes||[]).find(o=>o.name==='Over')?.price).filter(p=>p!=null&&!isNaN(p));
+    const unders=tot.map(b=>(b.outcomes||[]).find(o=>o.name==='Under')?.price).filter(p=>p!=null&&!isNaN(p));
+    const points=tot[0]?.outcomes?.find(o=>o.name==='Over')?.point;
+    if(!overs.length||!unders.length||!points) continue;
+    const avgOver=trueAvg(overs),avgUnder=trueAvg(unders);
+    if(!avgOver||!avgUnder) continue;
+    const ta=getTeamAnalytics(home,home,sportKey),oppTA=getTeamAnalytics(away,home,sportKey);
+    const overGap=Math.round(Math.max(...overs)-Math.min(...overs));
+    const underGap=Math.round(Math.max(...unders)-Math.min(...unders));
+    const overConf=Math.min(72,Math.max(44,calcConf(overs,avgOver>0,overGap,ta,oppTA,sportKey,false)));
+    const underConf=Math.min(72,Math.max(44,calcConf(unders,avgUnder>0,underGap,ta,oppTA,sportKey,false)));
+    const bestDir=overConf>=underConf?'over':'under';
+    picks.push({betType:'OU',id:`ou_${game.id||Date.now()}`,home,away,total:points,dir:bestDir,odds:bestDir==='over'?avgOver:avgUnder,conf:Math.max(overConf,underConf),overOdds:avgOver,underOdds:avgUnder,overConf,underConf,books:overs.length,gameTime:game.commence_time});
+  }
+  return picks.sort((a,b)=>b.conf-a.conf);
+}
+
+// ── RENDER CARDS ──────────────────────────────────────────────────────────
 function renderPickCard(p,i){
   const tier=p.conf>=68?'high':p.conf>=57?'mid':'low';
-  const tierLabel=p.conf>=68?'🔥 High':p.conf>=57?'⚡ Med':'📊 Low';
   const id=p.id||i;
+  const typeBadge=p.betType==='RL'?`<span class="type-badge rl">RL ${p.spreadDisp}</span>`:p.betType==='OU'?`<span class="type-badge ${p.dir}">${p.dir==='over'?'OVER':'UNDER'} ${p.total}</span>`:`<span class="type-badge ml">ML</span>`;
+  const teamDisplay=p.betType==='OU'?(p.dir==='over'?`OVER ${p.total}`:`UNDER ${p.total}`):p.team;
+  const subDisplay=p.betType==='OU'?`${p.away} @ ${p.home} · ${fmtT(p.gameTime)}`:`${p.betType==='RL'?p.spreadDisp+' ·':''} vs ${p.opponent} · ${fmtT(p.gameTime)}`;
   return `<div class="pick-card ${tier}" style="animation-delay:${i*0.05}s">
     <div class="pick-top">
-      <div class="pick-header"><div class="pick-team">${p.team}</div><div class="pick-conf-badge ${tier}">${p.conf}% ${tierLabel}</div></div>
-      <div class="pick-sub">Moneyline · vs ${p.opponent} · ${fmtT(p.gameTime)}</div>
-      <div class="pick-odds-row"><div class="pick-odds-big ${oc(p.odds)}">${fmt(p.odds)}</div><div class="imp-pill">${implP(p.odds)||'—'}% implied</div>${p.at?`<div class="imp-pill">O/U ${p.at.toFixed(1)}</div>`:''}</div>
+      <div style="margin-bottom:6px">${typeBadge}</div>
+      <div class="pick-header"><div class="pick-team">${teamDisplay}</div><div class="pick-conf-badge ${tier}">${p.conf}% ${tier==='high'?'🔥':tier==='mid'?'⚡':'📊'}</div></div>
+      <div class="pick-sub">${subDisplay}</div>
+      <div class="pick-odds-row"><div class="pick-odds-big ${oc(p.odds)}">${fmt(p.odds)}</div><div class="imp-pill">${implP(p.odds)||'—'}% implied</div>${p.at&&p.betType==='ML'?`<div class="imp-pill">O/U ${p.at.toFixed(1)}</div>`:''}</div>
     </div>
-    <div class="conf-section"><div class="conf-labels"><span>Confidence Score</span><span>${p.conf}%</span></div><div class="conf-track"><div class="conf-fill ${tier}" style="width:${p.conf}%"></div></div></div>
-    <button class="pick-expand" onclick="toggleDet('${id}')"><span>▼ Full Analysis + Bet</span><span style="font-size:9px">${p.books} books · ${p.gap}pt gap</span></button>
+    <div class="conf-section"><div class="conf-labels"><span>Confidence</span><span>${p.conf}%</span></div><div class="conf-track"><div class="conf-fill ${tier}" style="width:${p.conf}%"></div></div></div>
+    <button class="pick-expand" onclick="toggleDet('${id}')"><span>▼ Full Analysis</span><span style="font-size:9px">${p.books} books · ${p.gap||'—'}pt gap</span></button>
     <div class="pick-detail" id="det_${id}">
-      <div class="analysis-section"><div class="analysis-header"><span>📊</span><span class="analysis-title line">LINE EDGE</span></div><div class="analysis-body">${p.lineEdgeTxt}</div></div>
-      ${p.matchupHTML}
-      <div class="analysis-section"><div class="analysis-header"><span>🔬</span><span class="analysis-title analytics">ANALYTICS EDGE</span></div><div class="analysis-body">${p.analyticsTxt}</div></div>
-      <div class="stats-row"><div class="stat-box"><div class="val">${fmt(p.odds)}</div><div class="lbl">Best Odds</div></div><div class="stat-box"><div class="val">${implP(p.odds)||'—'}%</div><div class="lbl">Implied</div></div><div class="stat-box"><div class="val">${p.books}</div><div class="lbl">Books</div></div><div class="stat-box"><div class="val">${p.gap}pt</div><div class="lbl">Line Gap</div></div></div>
-      <div class="quick-bet"><div class="qb-label">Take This Bet</div><div class="qb-row"><button class="amt-btn" id="a10_${id}" onclick="selAmt('${id}',10)">$10</button><button class="amt-btn" id="a25_${id}" onclick="selAmt('${id}',25)">$25</button><button class="amt-btn" id="a50_${id}" onclick="selAmt('${id}',50)">$50</button><input class="amt-input" type="number" id="ac_${id}" placeholder="$ custom" oninput="selCustom('${id}',this.value)"><button class="log-btn" onclick="quickLog('${id}','${p.team.replace(/'/g,"\\'")}','ML',${p.odds})">✅ Log</button></div><div class="br-tag">💰 ${brec(p.conf)}</div></div>
+      ${p.lineEdgeTxt?`<div class="analysis-section"><div class="analysis-header"><span>📊</span><span class="analysis-title line">LINE EDGE</span></div><div class="analysis-body">${p.lineEdgeTxt}</div></div>`:''}
+      ${p.matchupHTML||''}
+      ${p.analyticsTxt?`<div class="analysis-section"><div class="analysis-header"><span>🔬</span><span class="analysis-title analytics">ANALYTICS EDGE</span></div><div class="analysis-body">${p.analyticsTxt}</div></div>`:''}
+      ${p.betType==='OU'?`<div class="analysis-section"><div style="display:flex;gap:8px"><div style="flex:1;background:rgba(255,140,66,0.08);border:1px solid rgba(255,140,66,0.2);border-radius:8px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--text2);margin-bottom:2px">OVER ${p.total}</div><div style="font-size:15px;font-weight:700;color:var(--orange)">${fmt(p.overOdds)}</div><div style="font-size:9px;color:var(--text2)">${p.overConf}% conf</div></div><div style="flex:1;background:rgba(88,166,255,0.08);border:1px solid rgba(88,166,255,0.2);border-radius:8px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--text2);margin-bottom:2px">UNDER ${p.total}</div><div style="font-size:15px;font-weight:700;color:var(--blue)">${fmt(p.underOdds)}</div><div style="font-size:9px;color:var(--text2)">${p.underConf}% conf</div></div></div></div>`:''}
+      <div class="stats-row"><div class="stat-box"><div class="val">${fmt(p.odds)}</div><div class="lbl">Best Odds</div></div><div class="stat-box"><div class="val">${implP(p.odds)||'—'}%</div><div class="lbl">Implied</div></div><div class="stat-box"><div class="val">${p.books}</div><div class="lbl">Books</div></div><div class="stat-box"><div class="val">${p.gap||'—'}pt</div><div class="lbl">Gap</div></div></div>
+      <div class="quick-bet"><div class="qb-label">Log This Bet</div><div class="qb-row"><button class="amt-btn" onclick="selAmt('${id}',10)">$10</button><button class="amt-btn" onclick="selAmt('${id}',25)">$25</button><button class="amt-btn" onclick="selAmt('${id}',50)">$50</button><input class="amt-input" type="number" id="ac_${id}" placeholder="$ custom" oninput="selCustom('${id}',this.value)"><button class="log-btn" onclick="quickLog('${id}','${(p.betType==='OU'?(p.dir==='over'?`OVER ${p.total}`:` UNDER ${p.total}`):(p.team||'')).replace(/'/g,"\\'")}','${p.type||p.betType}',${p.odds})">✅ Log</button></div><div class="br-tag">💰 ${brec(p.conf)}</div></div>
     </div>
   </div>`;
 }
 
 function toggleDet(id){const el=document.getElementById('det_'+id);if(el) el.classList.toggle('open');}
-function selAmt(id,amt){selAmts[id]=amt;[10,25,50].forEach(a=>{const b=document.getElementById(`a${a}_${id}`);if(b) b.classList.toggle('active',a===amt);});const c=document.getElementById(`ac_${id}`);if(c) c.value='';}
-function selCustom(id,val){selAmts[id]=parseFloat(val)||0;[10,25,50].forEach(a=>{const b=document.getElementById(`a${a}_${id}`);if(b) b.classList.remove('active');});}
+function selAmt(id,amt){selAmts[id]=amt;document.querySelectorAll(`[id^="a"][id$="_${id}"]`).forEach(b=>b.classList.remove('active'));const b=document.querySelector(`[onclick*="selAmt('${id}',${amt})"]`);if(b)b.classList.add('active');}
+function selCustom(id,val){selAmts[id]=parseFloat(val)||0;}
 function quickLog(id,team,type,odds){const amt=selAmts[id];if(!amt||amt<=0){alert('Select or enter a bet amount first');return;}const bets=getBets();bets.unshift({id:Date.now(),name:team,type,wager:amt,odds,result:null,date:new Date().toLocaleDateString()});saveBets(bets);alert(`✅ Logged: ${team} ${type} $${amt} at ${fmt(odds)}`);renderTracker();}
 
-async function genPicks(){
-  const wrap=document.getElementById('picksWrap');
-  wrap.innerHTML=`<div class="loading"><div class="spin"></div><p>Pulling analytics...</p></div>`;
+// ── ALL PICKS (ML + RL + OU in one tab) ──────────────────────────────────
+async function genAllPicks(){
+  document.getElementById('picksTime').textContent='Generating...';
+  document.getElementById('mlWrap').innerHTML=`<div class="loading"><div class="spin"></div><p>Loading moneyline picks...</p></div>`;
+  document.getElementById('rlWrap').innerHTML=`<div class="loading"><div class="spin"></div><p>Loading run line picks...</p></div>`;
+  document.getElementById('ouWrap').innerHTML=`<div class="loading"><div class="spin"></div><p>Loading over/under picks...</p></div>`;
   if(!games.length) await loadOdds();
-  const picks=await buildPicks(games);
-  if(!picks.length){wrap.innerHTML=`<div class="empty">No picks with clear edge.</div>`;return;}
-  wrap.innerHTML=picks.slice(0,8).map((p,i)=>renderPickCard(p,i)).join('');
+  const [mlPicks,rlPicks,ouPicks]=await Promise.all([buildMLPicks(games),buildRLPicks(games),buildOUPicks(games)]);
+  document.getElementById('mlWrap').innerHTML=mlPicks.length?mlPicks.slice(0,8).map((p,i)=>renderPickCard(p,i)).join(''):`<div class="empty">No moneyline plays with clear edge.</div>`;
+  document.getElementById('rlWrap').innerHTML=rlPicks.length?rlPicks.slice(0,8).map((p,i)=>renderPickCard(p,i)).join(''):`<div class="empty">No run line plays found.</div>`;
+  document.getElementById('ouWrap').innerHTML=ouPicks.length?ouPicks.slice(0,8).map((p,i)=>renderPickCard(p,i)).join(''):`<div class="empty">No over/under plays found.</div>`;
   document.getElementById('picksTime').textContent='Generated '+new Date().toLocaleTimeString();
 }
 
+// ── PLAY OF DAY (top 3 from all types) ───────────────────────────────────
 async function loadAll(){
   const wrap=document.getElementById('potdWrap');
-  wrap.innerHTML=`<div class="loading"><div class="spin"></div><p>Finding best play...</p></div>`;
+  wrap.innerHTML=`<div class="loading"><div class="spin"></div><p>Finding best plays across all bet types...</p></div>`;
   const gs=await loadOdds();
-  if(!gs.length){wrap.innerHTML=`<div class="empty">No games today</div>`;return;}
-  const picks=await buildPicks(gs);
-  if(!picks.length){wrap.innerHTML=`<div class="empty">No clear plays today</div>`;return;}
-  const p=picks[0];
-  wrap.innerHTML=`<div class="potd-card"><div class="potd-badge">⭐ Play of the Day · Auto-refreshes on open</div><div class="potd-game">vs ${p.opponent} · ${fmtT(p.gameTime)}</div><div class="potd-team">${p.team}</div><div class="potd-odds ${oc(p.odds)}">${fmt(p.odds)} ML</div><div class="potd-chips"><span class="pill g">${p.conf}% confidence</span><span class="pill blue">${implP(p.odds)||'—'}% implied</span><span class="pill gold">💰 ${brec(p.conf)}</span><span class="pill">${p.books} books</span>${p.at?`<span class="pill">O/U ${p.at.toFixed(1)}</span>`:''}</div></div>${renderPickCard(p,0)}<div class="sec-hd">Other Plays Today</div>${picks.slice(1,5).map((pk,i)=>renderPickCard(pk,i)).join('')}`;
+  if(!gs.length){wrap.innerHTML=`<div class="empty">No games today.</div>`;return;}
+  const pregame=gs.filter(isPreGame);
+  if(!pregame.length){wrap.innerHTML=`<div class="empty">All games have started. Check back tomorrow.</div>`;document.getElementById('potdTime').textContent='Updated '+new Date().toLocaleTimeString();return;}
+  const [mlPicks,rlPicks,ouPicks]=await Promise.all([buildMLPicks(gs),buildRLPicks(gs),buildOUPicks(gs)]);
+  // Merge all, dedupe by game+team, take top 3 by confidence
+  const allPicks=[...mlPicks,...rlPicks,...ouPicks];
+  allPicks.sort((a,b)=>b.conf-a.conf);
+  // Dedupe: no more than 1 pick per game matchup across types
+  const seen=new Set();
+  const top=[];
+  for(const p of allPicks){
+    const key=p.betType==='OU'?`${p.home}|${p.away}`:`${p.homeTeam}|${p.awayTeam}|${p.team}`;
+    if(!seen.has(key)&&top.length<3){seen.add(key);top.push(p);}
+  }
+  if(!top.length){wrap.innerHTML=`<div class="empty">No clear plays today.</div>`;return;}
+  const typeLabel=p=>p.betType==='RL'?`Run Line ${p.spreadDisp}`:p.betType==='OU'?`${p.dir==='over'?'OVER':'UNDER'} ${p.total}`:'Moneyline';
+  const typeColor=p=>p.betType==='RL'?'var(--blue)':p.betType==='OU'?(p.dir==='over'?'var(--orange)':'var(--purple)'):'var(--green)';
+  wrap.innerHTML=`
+    <div style="font-size:10px;font-weight:700;color:var(--green);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">⭐ Top 3 Plays Today · Pre-Game Only · All Bet Types</div>
+    ${top.map((p,i)=>`
+      <div class="potd-card" style="margin-bottom:12px">
+        <div class="potd-rank">${i+1}</div>
+        <div class="potd-badge" style="color:${typeColor(p)}">${['🥇','🥈','🥉'][i]} ${typeLabel(p)}</div>
+        <div class="potd-game">${p.betType==='OU'?`${p.away} @ ${p.home}`:(`vs ${p.opponent}`)} · ${fmtT(p.gameTime)}</div>
+        <div class="potd-team">${p.betType==='OU'?(p.dir==='over'?`OVER ${p.total}`:`UNDER ${p.total}`):(p.betType==='RL'?p.team+' '+p.spreadDisp:p.team)}</div>
+        <div class="potd-odds ${oc(p.odds)}">${fmt(p.odds)}</div>
+        <div class="potd-chips">
+          <span class="pill g">${p.conf}% conf</span>
+          <span class="pill blue">${p.books} books</span>
+          <span class="pill gold">💰 ${brec(p.conf)}</span>
+          ${p.at&&p.betType==='ML'?`<span class="pill">O/U ${p.at.toFixed(1)}</span>`:''}
+        </div>
+      </div>
+      ${renderPickCard(p,i)}
+    `).join('')}
+  `;
   document.getElementById('potdTime').textContent='Updated '+new Date().toLocaleTimeString();
 }
 
+// ── LIVE TAB ──────────────────────────────────────────────────────────────
+function bullpenAlert(era,ip){
+  const ipNum=parseFloat(ip)||0;
+  if(ipNum>=6) return{cls:'safe',txt:`Starter through ${ip} IP — bullpen fresh. Less volatility.`};
+  if(ipNum>=4&&era<4.0) return{cls:'safe',txt:`Starter dealing through ${ip} IP (${era} ERA). Bullpen likely rested.`};
+  if(ipNum<3||era>5.5) return{cls:'danger',txt:`⚠️ Starter struggling (${ip} IP, ${era} ERA) — bullpen imminent. Game could open up.`};
+  return{cls:'warning',txt:`Starter at ${ip} IP — mid-game, could go to bullpen soon. Watch the line.`};
+}
+
+function genLiveBetRecs(liveGame,oddsGame,homePitcher,awayPitcher){
+  const recs=[];
+  const homeScore=parseInt(liveGame.homeScore)||0;
+  const awayScore=parseInt(liveGame.awayScore)||0;
+  const inning=parseInt(liveGame.inning)||1;
+  const scoreDiff=Math.abs(homeScore-awayScore);
+  const totalRuns=homeScore+awayScore;
+  const isLate=inning>=6;
+  const isClose=scoreDiff<=1;
+  const blowout=scoreDiff>=5;
+
+  // Get current odds from oddsGame if available
+  const ml=oddsGame?.bookmakers?.flatMap(b=>b.markets?.filter(m=>m.key==='h2h').map(m=>({outcomes:m.outcomes})))||[];
+  const homeOddsNow=trueAvg(ml.map(b=>b.outcomes?.find(o=>o.name===liveGame.home)?.price).filter(p=>p!=null&&!isNaN(p)));
+  const awayOddsNow=trueAvg(ml.map(b=>b.outcomes?.find(o=>o.name===liveGame.away)?.price).filter(p=>p!=null&&!isNaN(p)));
+
+  if(blowout){
+    const winner=homeScore>awayScore?liveGame.home:liveGame.away;
+    const winnerOdds=homeScore>awayScore?homeOddsNow:awayOddsNow;
+    recs.push({cls:'avoid',type:'AVOID',pick:`Fade the ${winner} ML`,reason:`${scoreDiff}-run lead in inning ${inning} — line has moved too far. No value left on the winner side.`,odds:null});
+  }
+  if(isClose&&isLate){
+    const leadingTeam=homeScore>=awayScore?liveGame.home:liveGame.away;
+    const leadingOdds=homeScore>=awayScore?homeOddsNow:awayOddsNow;
+    if(leadingOdds&&leadingOdds>-200){
+      recs.push({cls:'live',type:'LIVE ML',pick:leadingTeam+' ML',reason:`Tied or 1-run game heading into inning ${inning}. Close late games favor the live side with fresh bullpen data. Line still has value at ${fmt(leadingOdds)}.`,odds:leadingOdds});
+    }
+  }
+
+  // Pitcher-based recs
+  const pitcherInGame=homeScore>awayScore?homePitcher:awayPitcher;
+  const trailingPitcher=homeScore>awayScore?awayPitcher:homePitcher;
+  if(trailingPitcher&&parseFloat(trailingPitcher.ip)>=5&&trailingPitcher.er===0&&!blowout){
+    const trailingTeam=homeScore>awayScore?liveGame.away:liveGame.home;
+    const trailingOdds=homeScore>awayScore?awayOddsNow:homeOddsNow;
+    if(trailingOdds&&trailingOdds>100){
+      recs.push({cls:'live',type:'LIVE DOG',pick:trailingTeam+' ML',reason:`${trailingPitcher.name} has ${trailingPitcher.ip} IP with 0 ER despite the deficit. Pitching well — offense can wake up. Dog line has live value.`,odds:trailingOdds});
+    }
+  }
+
+  // NRFI-style — early innings
+  if(inning<=2&&totalRuns===0){
+    recs.push({cls:'neutral',type:'FIRST INNING',pick:'No runs this inning',reason:`Through ${inning} innings, 0-0. Both starters appear sharp early. If you can still get NRFI/1st inning under, it may have value.`,odds:null});
+  }
+
+  if(!recs.length){
+    recs.push({cls:'neutral',type:'HOLD',pick:'No clear live edge right now',reason:`Score: ${liveGame.away} ${awayScore} – ${liveGame.home} ${homeScore} in inning ${inning}. Wait for a situation to develop before placing a live bet.`,odds:null});
+  }
+  return recs;
+}
+
+async function genLive(){
+  const wrap=document.getElementById('liveWrap');
+  wrap.innerHTML=`<div class="loading"><div class="spin"></div><p>Fetching live game data...</p></div>`;
+  document.getElementById('liveTime').textContent='—';
+
+  // Fetch live games from MLB Stats API + current odds from The Odds API simultaneously
+  const [liveGames,allOddsGames]=await Promise.all([
+    sportKey==='mlb'?fetchLiveMLBGames():Promise.resolve([]),
+    games.length?Promise.resolve(games):loadOdds()
+  ]);
+
+  document.getElementById('liveTime').textContent='Updated '+new Date().toLocaleTimeString();
+
+  if(!liveGames.length){
+    wrap.innerHTML=`<div class="live-no-games"><div class="live-no-icon">⚾</div><div class="live-no-txt">No live games right now</div><div class="live-no-sub">Check back once today's games start.<br>Games typically start at 1:05, 4:05, 7:05, or 10:05 ET.</div></div>`;
+    return;
+  }
+
+  wrap.innerHTML=`<div class="live-header-bar"><div class="live-dot"></div><div class="live-header-txt">${liveGames.length} Game${liveGames.length>1?'s':''} In Progress — Live MLB Data</div></div>`;
+
+  for(const lg of liveGames){
+    // Match to odds game
+    const oddsGame=allOddsGames.find(g=>g.home_team===lg.home||g.away_team===lg.away)||null;
+
+    // Fetch live pitcher data
+    let pitchers=null;
+    try{pitchers=await fetchLivePitcher(lg.gamePk);}catch(e){}
+    const hp=pitchers?.home,ap=pitchers?.away;
+
+    const homeWin=lg.homeScore>lg.awayScore,awayWin=lg.awayScore>lg.homeScore;
+    const tied=lg.homeScore===lg.awayScore;
+
+    const hTA=getTeamAnalytics(lg.home,lg.home,'mlb');
+    const aTA=getTeamAnalytics(lg.away,lg.home,'mlb');
+
+    const homeBullpenERA=hTA.bullpenERA;
+    const awayBullpenERA=aTA.bullpenERA;
+
+    // Starter status
+    const starterStatus=p=>{
+      if(!p) return '<span style="color:var(--text3)">No data</span>';
+      const ipNum=parseFloat(p.ip)||0;
+      if(p.isStarter) return ipNum>=5?`<span class="live-sit-pill cool">Starter in (${p.ip} IP)</span>`:`<span class="live-sit-pill warm">Starter in (${p.ip} IP)</span>`;
+      return `<span class="live-sit-pill hot">🔄 Bullpen in (${p.ip} IP)</span>`;
+    };
+
+    const hBullpen=bullpenAlert(hp?.seasonERA||homeBullpenERA,hp?.ip||'0');
+    const aBullpen=bullpenAlert(ap?.seasonERA||awayBullpenERA,ap?.ip||'0');
+    const betRecs=genLiveBetRecs(lg,oddsGame,hp,ap);
+
+    // Current live odds
+    const ml=oddsGame?.bookmakers?.flatMap(b=>b.markets?.filter(m=>m.key==='h2h').map(m=>({outcomes:m.outcomes})))||[];
+    const homeOddsNow=trueAvg(ml.map(b=>b.outcomes?.find(o=>o.name===lg.home)?.price).filter(p=>p!=null&&!isNaN(p)));
+    const awayOddsNow=trueAvg(ml.map(b=>b.outcomes?.find(o=>o.name===lg.away)?.price).filter(p=>p!=null&&!isNaN(p)));
+
+    const card=document.createElement('div');
+    card.className='live-game-card';
+    card.innerHTML=`
+      <div class="live-game-header">
+        <div class="live-scoreboard">
+          <div class="live-team-block away">
+            <div class="live-team-name">${lg.away}</div>
+            <div class="live-team-score ${awayWin?'winning':tied?'tied':'losing'}">${lg.awayScore}</div>
+            ${awayOddsNow?`<div style="font-size:11px;font-weight:700;color:${awayOddsNow>0?'var(--green)':'var(--red)'};margin-top:2px">${fmt(awayOddsNow)} live</div>`:''}
+          </div>
+          <div class="live-mid">
+            <div class="live-inning-badge">
+              <div class="live-inning-num">${lg.inning}</div>
+              <div class="live-inning-lbl">${(lg.inningHalf||'').charAt(0).toUpperCase()}</div>
+            </div>
+          </div>
+          <div class="live-team-block home" style="text-align:right">
+            <div class="live-team-name">${lg.home}</div>
+            <div class="live-team-score ${homeWin?'winning':tied?'tied':'losing'}">${lg.homeScore}</div>
+            ${homeOddsNow?`<div style="font-size:11px;font-weight:700;color:${homeOddsNow>0?'var(--green)':'var(--red)'};margin-top:2px">${fmt(homeOddsNow)} live</div>`:''}
+          </div>
+        </div>
+        <div class="live-situation">
+          <span class="live-sit-pill">${lg.outs} out${lg.outs!==1?'s':''}</span>
+          <span class="live-sit-pill">${lg.balls}-${lg.strikes} count</span>
+          <span class="live-sit-pill hot">🔴 ${lg.status}</span>
+        </div>
+      </div>
+
+      <div class="live-pitcher-section">
+        <div style="font-size:9px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">⚾ Current Pitchers — Real MLB Data</div>
+        <div class="live-pitcher-row">
+          <div class="live-pitcher-block">
+            <div class="live-pitcher-label">Away — ${lg.away.split(' ').pop()}</div>
+            <div class="live-pitcher-name">${ap?.name||'Loading...'}</div>
+            ${starterStatus(ap)}
+            <div class="live-pitcher-stats">
+              <span class="live-p-stat">Today: <strong>${ap?.ip||'?'} IP</strong></span>
+              <span class="live-p-stat"><strong>${ap?.er??'?'} ER</strong></span>
+              <span class="live-p-stat"><strong>${ap?.k??'?'} K</strong></span>
+              <span class="live-p-stat"><strong>${ap?.pc??'?'} pitches</strong></span>
+            </div>
+            <div style="font-size:9px;color:var(--text2);margin-top:4px">Season ERA: <strong>${ap?.seasonERA||awayBullpenERA}</strong> · WHIP: <strong>${ap?.seasonWHIP||'—'}</strong></div>
+            <div class="live-bullpen-alert ${aBullpen.cls}">${aBullpen.txt}</div>
+          </div>
+          <div class="live-pitcher-block">
+            <div class="live-pitcher-label">Home — ${lg.home.split(' ').pop()}</div>
+            <div class="live-pitcher-name">${hp?.name||'Loading...'}</div>
+            ${starterStatus(hp)}
+            <div class="live-pitcher-stats">
+              <span class="live-p-stat">Today: <strong>${hp?.ip||'?'} IP</strong></span>
+              <span class="live-p-stat"><strong>${hp?.er??'?'} ER</strong></span>
+              <span class="live-p-stat"><strong>${hp?.k??'?'} K</strong></span>
+              <span class="live-p-stat"><strong>${hp?.pc??'?'} pitches</strong></span>
+            </div>
+            <div style="font-size:9px;color:var(--text2);margin-top:4px">Season ERA: <strong>${hp?.seasonERA||homeBullpenERA}</strong> · WHIP: <strong>${hp?.seasonWHIP||'—'}</strong></div>
+            <div class="live-bullpen-alert ${hBullpen.cls}">${hBullpen.txt}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="live-bet-section">
+        <div class="live-bet-hd">🎯 Live Bet Recommendations</div>
+        ${betRecs.map(r=>`
+          <div class="live-bet-card ${r.cls}">
+            <div class="live-bet-type">${r.type}</div>
+            <div class="live-bet-pick">${r.pick}</div>
+            <div class="live-bet-reason">${r.reason}</div>
+            ${r.odds?`<div class="live-bet-odds ${oc(r.odds)}">${fmt(r.odds)}</div>`:''}
+            ${r.cls!=='avoid'&&r.odds?`<div class="live-log-row"><button class="live-log-btn" onclick="quickLogLive('${r.pick.replace(/'/g,"\\'")}',${r.odds})">✅ Log Live Bet</button></div>`:''}
+          </div>
+        `).join('')}
+      </div>
+    `;
+    wrap.appendChild(card);
+  }
+}
+
+function quickLogLive(pick,odds){
+  const amt=prompt(`Bet amount for "${pick}"? (enter dollars)`);
+  if(!amt||isNaN(parseFloat(amt))) return;
+  const bets=getBets();
+  bets.unshift({id:Date.now(),name:pick,type:'LIVE',wager:parseFloat(amt),odds,result:null,date:new Date().toLocaleDateString()});
+  saveBets(bets);
+  alert(`✅ Logged live bet: ${pick} at ${fmt(odds)} · $${amt}`);
+  renderTracker();
+}
+
+// ── NRFI ─────────────────────────────────────────────────────────────────
 async function genNRFI(){
   const wrap=document.getElementById('nrfiWrap');
   wrap.innerHTML=`<div class="loading"><div class="spin"></div><p>Analyzing first innings...</p></div>`;
   if(!games.length) await loadOdds();
   if(!games.length){wrap.innerHTML=`<div class="empty">No games.</div>`;return;}
-  if(sportKey==='mlb'&&Object.keys(mlbPitchers).length===0){
-    const p=await fetchMLBPitchers();
-    for(const team of Object.keys(p)){if(p[team].id){const stats=await fetchPitcherStats(p[team].id);if(stats) p[team].stats=stats;}}
-    mlbPitchers=p;
-  }
+  await ensurePitchers();
   const analyses=games.map(game=>{
     const home=game.home_team,away=game.away_team;
     const at=getAvgTotal(game);
@@ -601,15 +1050,15 @@ async function genNRFI(){
       else if(at<=8.0){score+=10;lR=`O/U <strong>${at.toFixed(1)}</strong> — pitcher-friendly. Soft NRFI.`;rec='n';recText='📊 Soft NRFI';}
       else if(at>=10.0){score-=20;lR=`O/U <strong>${at.toFixed(1)}</strong> — hitter's game. <span class="pos">YRFI lean.</span>`;rec='y';recText='✅ Lean YRFI';}
       else if(at>=9.0){score-=10;lR=`O/U <strong>${at.toFixed(1)}</strong> — leans high. Soft YRFI.`;rec='y';recText='📊 Soft YRFI';}
-      else{lR=`O/U <strong>${at.toFixed(1)}</strong> — neutral. No line edge.`;}
-    } else lR=`No total data.`;
+      else{lR=`O/U <strong>${at.toFixed(1)}</strong> — neutral total. No strong lean.`;}
+    } else lR=`No total data available.`;
     if(hERA!==null&&aERA!==null){
       const avg=(hERA+aERA)/2;
       const hN=hp?.name||'Home SP',aN=ap?.name||'Away SP';
-      if(avg<3.5){score+=15;aR=`<span class="pos">Both starters sharp</span> — ${aN} (${aERA} ERA) and ${hN} (${hERA} ERA). Real MLB data. Sub-3.5 ERA starters dominate first innings.`;}
-      else if(avg>4.5){score-=15;aR=`<span class="neg">Both starters leaking</span> — ${aN} (${aERA}) and ${hN} (${hERA}). High ERA starters give up first inning runs at a much higher rate.`;}
-      else aR=`Average starters — ${aN} (${aERA}) and ${hN} (${hERA}). No pitching signal — lean on the total.`;
-    } else aR=`Pitcher data unavailable. Check sportsbook for SP news.`;
+      if(avg<3.5){score+=15;aR=`<span class="pos">Both starters sharp</span> — ${aN} (${aERA} ERA) vs ${hN} (${hERA} ERA). Sub-3.5 avg ERA heavily favors NRFI.`;}
+      else if(avg>4.5){score-=15;aR=`<span class="neg">Both starters leaking</span> — ${aN} (${aERA}) vs ${hN} (${hERA}). High ERA starters give up 1st inning runs at elevated rates.`;}
+      else aR=`Average starters — ${aN} (${aERA}) vs ${hN} (${hERA}). Lean on the total line instead.`;
+    } else aR=`Pitcher data unavailable — check sportsbook for SP news before betting NRFI.`;
     const ns=Math.min(84,Math.max(20,score));
     return{home,away,at,ns,ys:100-ns,lR,aR,rec,recText,gameTime:game.commence_time,hp,ap};
   });
@@ -618,16 +1067,16 @@ async function genNRFI(){
   document.getElementById('nrfiTime').textContent='Analyzed '+new Date().toLocaleTimeString();
 }
 
+// ── GOBLINS ───────────────────────────────────────────────────────────────
 const GOBLINS=[
-  {player:'Shohei Ohtani',team:'LAD',stat:'Hits+Runs+RBIs',line:1.5,dir:'OVER',rate:74,why:'Just needs one hit and one run or RBI. Any solid game from the best player in baseball cashes this.'},
-  {player:'Mookie Betts',team:'LAD',stat:'Hits',line:0.5,dir:'OVER',rate:82,why:'One hit in a game. Purest goblin — averages 1.4+ per game.'},
-  {player:'Aaron Judge',team:'NYY',stat:'Total Bases',line:1.5,dir:'OVER',rate:71,why:'1.5 total bases = single + any extra base hit, or one HR. Exit velocity alone makes this reliable.'},
-  {player:'Gunnar Henderson',team:'BAL',stat:'Hits+Runs+RBIs',line:1.5,dir:'OVER',rate:68,why:'Bats in heart of Orioles lineup. 1.5 combined is realistic.'},
-  {player:'Freddie Freeman',team:'LAD',stat:'Hits',line:0.5,dir:'OVER',rate:79,why:'One hit from a .310+ hitter. Safest goblin on the board.'},
-  {player:'Yordan Alvarez',team:'HOU',stat:'Total Bases',line:1.5,dir:'OVER',rate:70,why:'Massive power. 1.5 total bases means even a double cashes this.'},
+  {player:'Shohei Ohtani',team:'LAD',stat:'Hits+Runs+RBIs',line:1.5,dir:'OVER',rate:74,why:'Just needs one hit and one run or RBI.'},
+  {player:'Mookie Betts',team:'LAD',stat:'Hits',line:0.5,dir:'OVER',rate:82,why:'One hit in a game. Averages 1.4+ per game.'},
+  {player:'Aaron Judge',team:'NYY',stat:'Total Bases',line:1.5,dir:'OVER',rate:71,why:'Exit velocity alone makes 1.5 TB reliable.'},
+  {player:'Gunnar Henderson',team:'BAL',stat:'Hits+Runs+RBIs',line:1.5,dir:'OVER',rate:68,why:'Heart of Orioles lineup. 1.5 combined is realistic.'},
+  {player:'Freddie Freeman',team:'LAD',stat:'Hits',line:0.5,dir:'OVER',rate:79,why:'One hit from a .310+ hitter. Safest goblin.'},
+  {player:'Yordan Alvarez',team:'HOU',stat:'Total Bases',line:1.5,dir:'OVER',rate:70,why:'Massive power. Even a double cashes this.'},
   {player:'Juan Soto',team:'NYM',stat:'Hits+Runs+RBIs',line:1.5,dir:'OVER',rate:67,why:'Elite on-base. Any hit + run or RBI cashes.'},
 ];
-
 function genGoblins(){
   const wrap=document.getElementById('goblinWrap');
   const shuffled=[...GOBLINS].sort(()=>Math.random()-0.5).slice(0,5);
@@ -635,6 +1084,7 @@ function genGoblins(){
   document.getElementById('goblinTime').textContent='Updated '+new Date().toLocaleTimeString();
 }
 
+// ── TRACKER ───────────────────────────────────────────────────────────────
 function addBet(){
   const name=document.getElementById('bName').value.trim();
   const type=document.getElementById('bType').value;
@@ -661,11 +1111,13 @@ function renderTracker(){
   pEl.textContent=(pnl>=0?'+':'')+'$'+Math.abs(pnl).toFixed(2);
   pEl.className='pnl-num '+(pnl>0?'pos':pnl<0?'neg':'neu');
   document.getElementById('wrVal').textContent=wr+'%';
-  document.getElementById('wrVal').className='pnl-num '+(wr>=55?'pos':'neu');
+  document.getElementById('wrVal').className='pnl-num '+(parseInt(wr)>=55?'pos':'neu');
   document.getElementById('betsVal').textContent=bets.length;
   if(!bets.length){document.getElementById('betList').innerHTML=`<div class="empty">No bets logged yet</div>`;return;}
-  document.getElementById('betList').innerHTML=bets.map(b=>`<div class="bet-row"><div class="bet-left"><div class="bet-nm">${b.name}</div><div class="bet-meta">${b.type} · ${fmt(b.odds)} · ${b.date}</div></div><div class="bet-pay">$${b.wager} → <span>+$${pay(b.wager,b.odds)}</span></div><div class="bet-actions"><button class="res-btn w ${b.result==='win'?'on':''}" onclick="setResult(${b.id},'win')">W</button><button class="res-btn l ${b.result==='loss'?'on':''}" onclick="setResult(${b.id},'loss')">L</button><button class="res-btn p ${b.result==='push'?'on':''}" onclick="setResult(${b.id},'push')">P</button><button class="del-btn" onclick="delBet(${b.id})">✕</button></div></div>`).join('');
+  document.getElementById('betList').innerHTML=bets.map(b=>`<div class="bet-row"><div class="bet-left"><div class="bet-nm">${b.name}</div><div class="bet-meta">${b.type} · ${fmt(b.odds)} · ${b.date}${b.type==='LIVE'?' · 🔴 Live':''}</div></div><div class="bet-pay">$${b.wager} → <span>+$${pay(b.wager,b.odds)}</span></div><div class="bet-actions"><button class="res-btn w ${b.result==='win'?'on':''}" onclick="setResult(${b.id},'win')">W</button><button class="res-btn l ${b.result==='loss'?'on':''}" onclick="setResult(${b.id},'loss')">L</button><button class="res-btn p ${b.result==='push'?'on':''}" onclick="setResult(${b.id},'push')">P</button><button class="del-btn" onclick="delBet(${b.id})">✕</button></div></div>`).join('');
 }
+
+// ── LEARN ─────────────────────────────────────────────────────────────────
 function updateNote(id,note){const ls=getLosses();const f=ls.find(x=>x.id===id);if(f){f.note=note;saveLosses(ls);}}
 function renderLearn(){
   const losses=getLosses(),bets=getBets();
@@ -675,7 +1127,7 @@ function renderLearn(){
   const byType={};
   allBets.forEach(b=>{if(!byType[b.type]) byType[b.type]={w:0,l:0};if(b.result==='win') byType[b.type].w++;else if(b.result==='loss') byType[b.type].l++;});
   const patterns=Object.entries(byType).filter(([,d])=>d.w+d.l>=2).map(([type,d])=>{const total=d.w+d.l,wr=((d.w/total)*100).toFixed(0);return{type,wr:parseInt(wr),w:d.w,l:d.l};});
-  document.getElementById('patternLog').innerHTML=!patterns.length?`<div class="empty">Not enough data</div>`:patterns.map(p=>`<div class="pattern-card"><div style="font-size:10px;font-weight:700;color:${p.wr>=55?'var(--green)':p.wr<40?'var(--red)':'var(--gold)'};text-transform:uppercase;margin-bottom:6px">${p.type} — ${p.wr}% (${p.w}W/${p.l}L)</div><div style="font-size:12px;color:var(--text2)">${p.wr>=55?`Your best — keep firing.`:p.wr<40?`Bleeding here. Cut or stop.`:`Breaking even. Only bet conf 68%+.`}</div></div>`).join('');
+  document.getElementById('patternLog').innerHTML=!patterns.length?`<div class="empty">Not enough data yet</div>`:patterns.map(p=>`<div class="pattern-card"><div style="font-size:10px;font-weight:700;color:${p.wr>=55?'var(--green)':p.wr<40?'var(--red)':'var(--gold)'};text-transform:uppercase;margin-bottom:6px">${p.type} — ${p.wr}% (${p.w}W/${p.l}L)</div><div style="font-size:12px;color:var(--text2)">${p.wr>=55?'Your best bet type — keep firing.':p.wr<40?'Bleeding on this type. Cut it or stop.':'Breaking even. Only bet conf 68%+.'}</div></div>`).join('');
 }
 
 loadAll();
